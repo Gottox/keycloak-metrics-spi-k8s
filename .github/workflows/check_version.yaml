@@ -1,10 +1,9 @@
-name: Check
+name: Check Version
 on:
-  - schedule:
+  schedule:
     # 03:32 every day
     - cron:  '32 03 * * *'
-  - push
-
+  push: {}
 
 jobs:
   build:
@@ -14,7 +13,7 @@ jobs:
     - name: Check for version
       run: |
         set -e
-        eval "$(grep '^ARG ' Dockerfile | sed s/^ARG /export /)"
+        eval "$(grep '^ARG ' Dockerfile | sed 's/^ARG /export /')"
         UPSTREAM_VERSION="$(curl https://api.github.com/repos/$REPOSITORY/releases/latest | jq -r '.name')"
         [ "$VERSION" = "$UPSTREAM_VERSION" ]
     - name: IRC Message Action
