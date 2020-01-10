@@ -6,10 +6,10 @@
 # Distributed under terms of the MIT license.
 #
 
-PLUGIN_SRC='/plugins'
-PLUGIN_DEST='/shared'
+PLUGIN_SRC='/local'
+PLUGIN_DEST='/plugins'
 PLUGIN="$1"
 
 set -e
 cp "$PLUGIN_SRC/$PLUGIN" "$PLUGIN_DEST/$PLUGIN"
-chmod a+rx "/shared/$PLUGIN"
+chmod a+rx "$PLUGIN_DEST/$PLUGIN"
