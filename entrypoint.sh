@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/sh -x
 #
 # entrypoint.sh
 # Copyright © 2020 Enno Boland <mail@eboland.de>
