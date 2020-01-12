@@ -1,0 +1,28 @@
+name: Docker Image CI
+
+on: 
+- push
+- create
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    - name: Docker Build
+      run: docker build -t ${{ github.ref }}
+    - name: Docker Login
+      run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
+    - name: Docker Push
+      run: docker push docker.pkg.github.com/${{ github.repository }}:${{ github.ref }}
+    - name: IRC Message Action
+      uses: Gottox/irc-message-action@master
+      if: failure()
+      with:
+        channel: "##gottox"
+        nickname: gh-gottox
+        message: "Gottox: https://github.com/${{ github.repository }} failed on ${{ github.event.action }} ${{ github.event.compare }}"
