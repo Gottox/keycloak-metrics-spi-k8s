@@ -15,14 +15,14 @@ jobs:
       uses: actions/checkout@v2
     - name: Docker Build
       run: |
-        repo=$(echo "${{ github.repository }}" | tr 'A-Z' 'a-z')
+        repo=$(echo "${{ github.repository }}" | tr 'A-Z' 'a-z')/image
         ref=$(echo "${{ github.ref }}" | tr 'A-Z' 'a-z' | cut -d / -f 3)
         docker build -t $ref .
     - name: Docker Login
       run: docker login -u ${{ github.actor }} -p ${{ github.token }} docker.pkg.github.com
     - name: Docker Push
       run: |
-        repo=$(echo "${{ github.repository }}" | tr 'A-Z' 'a-z')
+        repo=$(echo "${{ github.repository }}" | tr 'A-Z' 'a-z')/image
         ref=$(echo "${{ github.ref }}" | tr 'A-Z' 'a-z' | cut -d / -f 3)
         docker tag $ref docker.pkg.github.com/$repo:$ref
         docker push docker.pkg.github.com/$repo:$ref
