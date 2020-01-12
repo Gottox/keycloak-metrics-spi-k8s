@@ -14,11 +14,17 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
     - name: Docker Build
-      run: docker build -t docker.pkg.github.com/${{ github.repository }}:${{ github.ref }} .
+      run: |
+        repo=$(echo "${{ github.repository }}" | tr 'A-Z' 'a-z')
+        ref=$(echo "${{ github.ref }}" | tr 'A-Z' 'a-z')
+        docker build -t docker.pkg.github.com/$repo:$ref .
     - name: Docker Login
       run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
     - name: Docker Push
-      run: docker push docker.pkg.github.com/${{ github.repository }}:${{ github.ref }}
+      run: |
+        repo=$(echo "${{ github.repository }}" | tr 'A-Z' 'a-z')
+        ref=$(echo "${{ github.ref }}" | tr 'A-Z' 'a-z')
+        docker push docker.pkg.github.com/${{ github.repository }}:${{ github.ref }}
     - name: IRC Message Action
       uses: Gottox/irc-message-action@master
       if: failure()
