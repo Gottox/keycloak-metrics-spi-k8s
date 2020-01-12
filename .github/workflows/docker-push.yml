@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Docker Push
 
 on: 
 - push
@@ -14,7 +14,7 @@ jobs:
     - name: Checkout Repository
       uses: actions/checkout@v2
     - name: Docker Build
-      run: docker build -t ${{ github.ref }}
+      run: docker build -t ${{ github.ref }} .
     - name: Docker Login
       run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
     - name: Docker Push
