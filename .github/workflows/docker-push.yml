@@ -19,7 +19,7 @@ jobs:
         ref=$(echo "${{ github.ref }}" | tr 'A-Z' 'a-z' | cut -d / -f 3)
         docker build -t $ref .
     - name: Docker Login
-      run: docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} docker.pkg.github.com
+      run: docker login -u ${{ github.actor }} -p ${{ github.token }} docker.pkg.github.com
     - name: Docker Push
       run: |
         repo=$(echo "${{ github.repository }}" | tr 'A-Z' 'a-z')
